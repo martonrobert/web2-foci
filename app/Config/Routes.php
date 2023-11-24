@@ -35,7 +35,7 @@ $routes->get('csapatok', 'KlubListaGetController::index');
 // Egy csapat adatainak megjelenítése, játékosokkal
 $routes->get('csapatok/(:num)','KlubViewController::index');
 // Csapat játékosainak lekélrdezése API
-$routes->get('csapatok/(:num)/jatekosok','JatekosokViewController::index');
+$routes->get('csapatok/(:num)/jatekosok','LabdarugoAPIController::index/$1');
 
 // Játékos adatainak mentése
 $routes->post('jatekos', 'JatekosPostController::index');
