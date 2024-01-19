@@ -11,14 +11,25 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Főoldal</a></li>
-            <li><a href="#about">Rólunk</a></li>
-            <li><a href="#contact">Kapcsolat</a></li>
+            <li><a href="/">Főoldal</a></li>
+            <?php if (isset($auth) and (string) $auth->token_str !== '') : ?>
+                <li><a href="/csapatok-lista">Csapatok</a></li>
+            <?php endif; ?>  
+            <?php if (isset($auth) and (string) $auth->token_str !== '' and (int) $auth->adminisztrator == 1) : ?>
+                <li><a href="/felhasznalok-lista">Felhasználók</a></li>
+            <?php endif; ?>               
+            <li><a href="/about">Rólunk</a></li>
+            <li><a href="/contact-us">Kapcsolat</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <?php if (!isset($auth) or (string) $auth->token_str == '') : ?>
             <li><a href="/belepes">Bejelentkezés</a></li>
             <li><a href="/regisztrácio">Regisztráció</a></li>
+            <?php endif; ?>
+            <?php if (isset($auth) and (string) $auth->token_str !== '') : ?>
+            <li><p class="navbar-text"><?php echo $auth->nev . ' (' . $auth->email . ')' ?></p></li>
             <li><a href="/kilepes">Kijelentkezés</a></li>
+            <?php endif; ?>
         </ul>
     </div>
     </div>

@@ -40,3 +40,11 @@ $routes->get('csapatok/(:num)/jatekosok','LabdarugoAPIController::index/$1');
 // Játékos adatainak mentése
 $routes->post('jatekos', 'JatekosPostController::index');
 
+
+// felhasználók lista
+$routes->get('felhasznalok-lista', 'UserListController::index');
+
+
+$routes->get('about', 'AboutController::index');
+
+$routes->get('contact-us', 'ContactUsController::index');
