@@ -43,6 +43,12 @@ abstract class BaseController extends Controller
      */
     // protected $session;
 
+    protected $tokenData;
+
+    protected $userName;
+    protected $userId;
+    protected $isAdminUser;
+
     /**
      * @return void
      */
@@ -54,5 +60,21 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+        helper('cookie');
+        $this->tokenData = null;
+        $db = \Config\Database::connect();
+        $token = $this->request->getCookie('foci-ssid');
+
+        if ($token) {
+            $stmt = $db->query('select t.*, f.adminisztrator, f.nev, f.id as user_id, f.email  
+                                from tokens t
+                                    join felhasznalok f on f.id = t.felhasznalo_id
+                                where t.token_str = ? and t.torolt = 0 and f.allapot = ?', array($token, 'A'));
+            $this->tokenData = $stmt->getRow();
+            $this->userName = $this->tokenData->nev;
+            $this->userId = $this->tokenData->user_id;
+            $this->isAdminUser = ((int) $this->tokenData->adminisztrator == 1);
+        }
+
     }
 }
