@@ -14,6 +14,15 @@ class UserModel {
         helper('text');
     }
 
+    public function getUserList() {
+        $stmt = $this->db->query('select * from felhasznalok where allapot = ?', array('A'));
+        if ($stmt->getNumRows() > 0) {
+            return $stmt->getResult();
+        }
+        return array();
+
+    }
+
     public function createUserCode() {
         return random_string();
     }
